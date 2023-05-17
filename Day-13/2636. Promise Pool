@@ -1,0 +1,41 @@
+/**
+ * @param {Function[]} functions
+ * @param {number} n
+ * @return {Function}
+ */
+var promisePool = async function(functions, n) {
+    return new Promise((res) => {
+        let results = []
+        let pending = 0
+        let resolve = 0;
+        let index = 0
+        let total = functions.length
+
+        if(total === 0) res([results], total)
+
+        function init(){
+            while(pending < n && index < total){
+                
+                let promise = functions[index++]();
+                
+                pending++
+
+                promise.then(response => {
+                    results.push(response);
+                    pending--
+                    resolve++
+                    if(resolve === total) res([results],results[results.length-1])
+                    else init()
+                    
+                }) 
+            }
+        }
+        init()
+    })
+};
+ 
+/**
+ * const sleep = (t) => new Promise(res => setTimeout(res, t));
+ * promisePool([() => sleep(500), () => sleep(400)], 1)
+ *   .then(console.log) // After 900ms
+ */

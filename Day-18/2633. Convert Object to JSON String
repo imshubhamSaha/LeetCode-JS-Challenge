@@ -1,0 +1,27 @@
+/**
+ * @param {any} object
+ * @return {string}
+ */
+var jsonStringify = function(object) {
+    if(object === null) {
+        return "null";
+    }
+
+    if(typeof object === "string"){ //string
+        return `"${object}"`
+    }
+
+    if(Array.isArray(object)){//array
+        const val = object.map((obj)=> jsonStringify(obj))
+        return `[${val.join(",")}]`
+    }
+
+    if(typeof object === "object"){// object
+        const keys = Object.keys(object);
+        const keyVal = keys.map((key)=> `"${key}":${jsonStringify(object[key])}`)
+        return `{${keyVal.join(",")}}`
+    }
+    
+    return String(object) // number and boolean
+    
+};

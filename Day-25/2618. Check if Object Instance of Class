@@ -1,0 +1,22 @@
+/**
+ * @param {any} object
+ * @param {any} classFunction
+ * @return {boolean}
+ */
+var checkIfInstanceOf = function(obj, classFunction) {
+    if(obj === undefined){
+        return false
+    }
+    while(obj !== null){
+        const expectedPrototype = Object.getPrototypeOf(obj);
+        if(expectedPrototype === classFunction?.prototype){
+            return true;
+        }
+        obj = expectedPrototype;
+    }
+    return false;
+};
+
+/**
+ * checkIfInstanceOf(new Date(), Date); // true
+ */

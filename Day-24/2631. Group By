@@ -1,0 +1,19 @@
+/**
+ * @param {Function} fn
+ * @return {Array}
+ */
+Array.prototype.groupBy = function(fn) {
+    const res = {};
+    this.forEach(elem =>{
+      let key = fn(elem)
+      if(key in res) {
+        res[key].push(elem)
+      }else res[key] = [elem]
+    })
+
+    return res
+};
+
+/**
+ * [1,2,3].groupBy(String) // {"1":[1],"2":[2],"3":[3]}
+ */
